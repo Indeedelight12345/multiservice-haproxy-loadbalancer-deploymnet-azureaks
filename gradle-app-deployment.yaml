@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gradle-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: gradle-app
+  template:
+    metadata:
+      labels:
+        app: gradle-app
+    spec:
+      containers:
+      - name: gradle-app
+        image: rukevweubio/nodejs-racing-car-app:latest
+        ports:
+        - containerPort: 3000
+        # readinessProbe:
+        #   httpGet:
+        #     path: /
+        #     port: 3000       
+        #   initialDelaySeconds: 10
+        #   periodSeconds: 5
+        # livenessProbe:
+        #   httpGet:
+        #     path: /
+        #     port: 3000       
+        #   initialDelaySeconds: 30
+        #   periodSeconds: 10
