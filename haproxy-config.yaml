@@ -15,7 +15,7 @@ data:
       timeout server 30s
 
     frontend http_front
-      bind *:80
+      bind *:8080
       default_backend apps_backend
 
     backend apps_backend
