@@ -14,6 +14,13 @@ data:
       timeout client 30s
       timeout server 30s
 
+    # Kubernetes DNS resolver
+    resolvers kube
+      nameserver dns 10.0.0.10:53
+      resolve_retries 3
+      timeout resolve 1s
+      hold valid 10s
+
     frontend http_front
       bind *:8080
       default_backend apps_backend
@@ -21,6 +28,5 @@ data:
     backend apps_backend
       balance roundrobin
       option httpchk GET /
-      server gradleapp gradle-app-service.default.svc.cluster.local:3000 check inter 5000 rise 2 fall 3
-      server springboot spring-boot-service.default.svc.cluster.local:8080 check inter 5000 rise 2 fall 3
-
+      server gradleapp gradle-app-service.default.svc.cluster.local:3000 check resolvers kube resolve-prefer ipv4 inter 5000 rise 2 fall 3
+      server springboot spring-boot-service.default.svc.cluster.local:8080 check resolvers kube resolve-prefer ipv4 inter 5000 rise 2 fall 3
